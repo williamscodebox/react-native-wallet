@@ -88,6 +88,86 @@ app.get("/api/transactions/:userId", async (req, res) => {
   }
 });
 
+app.delete("/api/transactions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!id || typeof id !== "string") {
+      return res
+        .status(400)
+        .json({ error: "Missing or invalid transaction ID" });
+    }
+
+    const { data, error } = await supabase
+      .from("transactions")
+      .delete()
+      .eq("id", id)
+      .select(); // optional: return deleted record
+
+    if (error) {
+      console.error("❌ Supabase delete error:", error);
+      return res
+        .status(500)
+        .json({ error: "Failed to delete the transaction" });
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: "Transaction not found" });
+    }
+
+    res.status(200).json({
+      message: "🗑️ Transaction deleted successfully",
+      deleted: data,
+    });
+  } catch (error) {
+    console.log("❌ Error deleting the transaction:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.put("/api/transactions/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, amount, category } = req.body;
+
+    if (!id || typeof id !== "string") {
+      return res
+        .status(400)
+        .json({ error: "Missing or invalid transaction ID" });
+    }
+    if (!title || amount === undefined || !category) {
+      return res
+        .status(400)
+        .json({ error: "All fields (title, amount, category) are required" });
+    }
+
+    const { data, error } = await supabase
+      .from("transactions")
+      .update({ title, amount, category })
+      .eq("id", id)
+      .select(); // optional: returns updated row(s)
+
+    if (error) {
+      console.error("❌ Supabase update error:", error);
+      return res
+        .status(500)
+        .json({ error: "Failed to update the transaction" });
+    }
+
+    if (!data || data.length === 0) {
+      return res.status(404).json({ error: "Transaction not found" });
+    }
+
+    res.status(200).json({
+      message: "✅ Transaction updated successfully",
+      updated: data[0],
+    });
+  } catch (error) {
+    console.log("❌ Error updating the transaction:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 app.get("/", (req, res) => {
   res.send("✅ Server is alive!");
 });
