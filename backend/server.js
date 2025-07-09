@@ -18,7 +18,24 @@ async function connectToDB() {
   }
 }
 
+// Middleware
 app.use(express.json());
+
+// Custom simple middleware
+// app.use((req, res, next) => {
+//   console.log(`🔍 Request received: ${req.method} ${req.url}`);
+//   next();
+// });
+
+app.post("/api/transactions", async (req, res) => {
+  try {
+    const { title, amount, category, user_id } = req.body;
+
+    if (!title || amount === undefined || !category || !user_id) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+  } catch (error) {}
+});
 
 app.get("/", (req, res) => {
   res.send("✅ Server is alive!");
