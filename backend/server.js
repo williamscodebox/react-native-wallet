@@ -92,7 +92,7 @@ app.delete("/api/transactions/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
-    if (!id || typeof id !== "string") {
+    if (!isNaN(parseInt(id)) || !id) {
       return res
         .status(400)
         .json({ error: "Missing or invalid transaction ID" });
