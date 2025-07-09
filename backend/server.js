@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { supabase } from "./config/db.js";
+import { getSumForUser } from "./data/summary.js";
 
 dotenv.config();
 
@@ -164,6 +165,35 @@ app.put("/api/transactions/:id", async (req, res) => {
     });
   } catch (error) {
     console.log("❌ Error updating the transaction:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/api/transactions/summary/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    if (!userId || typeof userId !== "string") {
+      return res
+        .status(400)
+        .json({ error: "Missing or invalid userId parameter" });
+    }
+
+    const sum = await getSumForUser(userId);
+
+    if (sum === null) {
+      return res
+        .status(500)
+        .json({ error: "Failed to calculate transaction sum" });
+    }
+
+    res.status(200).json({
+      message: "✅ Summary retrieved successfully",
+      userId,
+      sum,
+    });
+  } catch (error) {
+    console.log("❌ Error getting the summary:", error);
     return res.status(500).json({ error: "Internal server error" });
   }
 });
