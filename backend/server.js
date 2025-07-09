@@ -9,7 +9,8 @@ const PORT = process.env.PORT || 3000;
 
 async function connectToDB() {
   try {
-    await supabase;
+    const { error } = await supabase.from("transactions").select("*").limit(1);
+    if (error) throw error;
 
     console.log("✅ Connected to database successfully!");
   } catch (error) {
@@ -34,7 +35,30 @@ app.post("/api/transactions", async (req, res) => {
     if (!title || amount === undefined || !category || !user_id) {
       return res.status(400).json({ error: "All fields are required" });
     }
-  } catch (error) {}
+
+    const { data, error } = await supabase
+      .from("transactions")
+      .insert([
+        {
+          title: title,
+          amount: amount,
+          category: category,
+          user_id: user_id,
+          created_at: new Date(),
+        },
+      ])
+      .select();
+
+    if (error) {
+      console.error("❌ Supabase insert error:", error);
+      return res.status(500).json({ error: "Failed to create transaction" });
+    }
+
+    res.status(201).json({ message: "Transaction created", data });
+  } catch (error) {
+    console.log("❌ Error creating transaction:", error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 app.get("/", (req, res) => {
