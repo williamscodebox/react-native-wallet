@@ -184,13 +184,15 @@ app.get("/api/transactions/summary/:userId", async (req, res) => {
     if (sum === null) {
       return res
         .status(500)
-        .json({ error: "Failed to calculate transaction sum" });
+        .json({ error: "Failed to calculate transaction summary" });
     }
 
     res.status(200).json({
       message: "✅ Summary retrieved successfully",
       userId,
-      sum,
+      balance: sum[0],
+      income: sum[1],
+      expenses: sum[2],
     });
   } catch (error) {
     console.log("❌ Error getting the summary:", error);
