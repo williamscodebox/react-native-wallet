@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { supabase } from "./config/db.js";
 import { getSumForUser } from "./data/summary.js";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
@@ -28,6 +29,13 @@ app.use(express.json());
 //   console.log(`🔍 Request received: ${req.method} ${req.url}`);
 //   next();
 // });
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "⛔ Too many requests, please try again later.",
+});
+
+app.use("/api/", limiter); // apply to all /api routes
 
 app.post("/api/transactions", async (req, res) => {
   try {
