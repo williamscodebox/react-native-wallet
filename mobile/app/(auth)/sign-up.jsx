@@ -3,6 +3,9 @@ import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
+import { styles } from "@/assets/styles/auth.styles.js";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { COLORS } from "../../constants/colors";
 
 export default function SignUpScreen() {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -65,10 +68,21 @@ export default function SignUpScreen() {
     }
   };
 
-  if (pendingVerification) {
+  // pendingVerification
+  if (true) {
     return (
-      <>
-        <Text>Verify your email</Text>
+      <View style={styles.verificationContainer}>
+        <Text style={styles.verificationTitle}>Verify your email</Text>
+        {error ? (
+          <View style={styles.errorBox}>
+            <Ionicons name="alert-circle" size={20} color={COLORS.expense} />
+            <Text style={styles.errorText}>{error}</Text>
+            <TouchableOpacity onPress={() => setError("")}>
+              <Ionicons name="close" size={20} color={COLORS.textLight} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <TextInput
           value={code}
           placeholder="Enter your verification code"
@@ -77,7 +91,7 @@ export default function SignUpScreen() {
         <TouchableOpacity onPress={onVerifyPress}>
           <Text>Verify</Text>
         </TouchableOpacity>
-      </>
+      </View>
     );
   }
 
