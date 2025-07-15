@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Image } from "expo-image";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import { useState } from "react";
@@ -69,7 +70,7 @@ export default function SignUpScreen() {
   };
 
   // pendingVerification
-  if (true) {
+  if (pendingVerification) {
     return (
       <View style={styles.verificationContainer}>
         <Text style={styles.verificationTitle}>Verify your email</Text>
@@ -98,9 +99,24 @@ export default function SignUpScreen() {
   }
 
   return (
-    <View>
-      <>
-        <Text>Sign up</Text>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={styles.container}>
+        <Image
+          source={require("@/assets/images/revenue-i2.png")}
+          style={styles.illustration}
+        />
+        <Text style={styles.title}>Create Account</Text>
+
+        {error ? (
+          <View style={styles.errorBox}>
+            <Ionicons name="alert-circle" size={20} color={COLORS.expense} />
+            <Text style={styles.errorText}>{error}</Text>
+            <TouchableOpacity onPress={() => setError("")}>
+              <Ionicons name="close" size={20} color={COLORS.textLight} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
+
         <TextInput
           autoCapitalize="none"
           value={emailAddress}
@@ -122,7 +138,7 @@ export default function SignUpScreen() {
             <Text>Sign in</Text>
           </Link>
         </View>
-      </>
+      </View>
     </View>
   );
 }
