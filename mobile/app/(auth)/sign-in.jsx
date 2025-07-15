@@ -35,7 +35,7 @@ export default function Page() {
       } else {
         // If the status isn't complete, check why. User might need to
         // complete further steps.
-        console.error(JSON.stringify(signInAttempt, null, 2));
+        //console.error(JSON.stringify(signInAttempt, null, 2));
       }
     } catch (err) {
       if (err.errors?.[0]?.code === "form_password_incorrect") {
