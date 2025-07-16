@@ -5,6 +5,7 @@ import { SignOutButton } from "@/components/SignOutButton";
 import { useTransactions } from "../../hooks/useTransactions";
 import { useEffect } from "react";
 import PageLoader from "../../components/PageLoader";
+import { styles } from "@/assets/styles/home.styles.js";
 
 export default function Page() {
   const { user } = useUser();
@@ -22,22 +23,29 @@ export default function Page() {
   if (isLoading) return <PageLoader />;
 
   return (
-    <View>
-      <SignedIn>
-        <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
-        <Text>Balance: {summary.balance}</Text>
-        <Text>Income: {summary.income}</Text>
-        <Text>Expenses: {summary.expenses}</Text>
-        <SignOutButton />
-      </SignedIn>
-      <SignedOut>
-        <Link href="/(auth)/sign-in">
-          <Text>Sign in</Text>
-        </Link>
-        <Link href="/(auth)/sign-up">
-          <Text>Sign up</Text>
-        </Link>
-      </SignedOut>
+    <View style={styles.container}>
+      <View style={styles.content}>
+        {/* Header */}
+        <View style={styles.header}>
+          {/* Left */}
+          {/* Right */}
+        </View>
+        <SignedIn>
+          <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
+          <Text>Balance: {summary.balance}</Text>
+          <Text>Income: {summary.income}</Text>
+          <Text>Expenses: {summary.expenses}</Text>
+          <SignOutButton />
+        </SignedIn>
+        <SignedOut>
+          <Link href="/(auth)/sign-in">
+            <Text>Sign in</Text>
+          </Link>
+          <Link href="/(auth)/sign-up">
+            <Text>Sign up</Text>
+          </Link>
+        </SignedOut>
+      </View>
     </View>
   );
 }
