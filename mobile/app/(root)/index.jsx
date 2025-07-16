@@ -44,6 +44,7 @@ export default function Page() {
               </Text>
             </View>
           </View>
+
           {/* Right */}
           <View style={styles.headerRight}>
             <TouchableOpacity
@@ -56,6 +57,8 @@ export default function Page() {
             <SignOutButton />
           </View>
         </View>
+
+        {/* Balance Card */}
         <SignedIn>
           <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
           <Text>Balance: {summary.balance}</Text>
