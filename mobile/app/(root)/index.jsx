@@ -8,6 +8,7 @@ import PageLoader from "../../components/PageLoader";
 import { styles } from "@/assets/styles/home.styles.js";
 import { Image } from "expo-image";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { BalanceCard } from "../../components/BalanceCard";
 
 export default function Page() {
   const { user } = useUser();
@@ -59,6 +60,7 @@ export default function Page() {
         </View>
 
         {/* Balance Card */}
+        <BalanceCard summary={summary} />
         <SignedIn>
           <Text>Hello {user?.emailAddresses[0].emailAddress}</Text>
           <Text>Balance: {summary.balance}</Text>
