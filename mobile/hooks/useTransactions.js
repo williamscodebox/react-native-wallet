@@ -23,7 +23,7 @@ export const useTransactions = (userId) => {
       const data = await response.json();
       setTransactions(data);
     } catch (error) {
-      console.error("Error fetching transactions:", error);
+      //console.error("Error fetching transactions:", error);
     }
   }, [userId]);
 
@@ -33,7 +33,7 @@ export const useTransactions = (userId) => {
       const data = await response.json();
       setSummary(data);
     } catch (error) {
-      console.error("Error fetching summary:", error);
+      //console.error("Error fetching summary:", error);
     }
   }, [userId]);
 
@@ -45,7 +45,7 @@ export const useTransactions = (userId) => {
       // can be run in parallel
       await Promise.all([fetchTransactions(), fetchSummary()]);
     } catch (error) {
-      console.error("Error loading data:", error);
+      //console.error("Error loading data:", error);
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +62,7 @@ export const useTransactions = (userId) => {
       loadData();
       Alert.alert("Success", "Transaction deleted successfully");
     } catch (error) {
-      console.error("Error deleting transaction:", error);
+      //console.error("Error deleting transaction:", error);
       Alert.alert("Error", error.message);
     }
   };
