@@ -14,10 +14,9 @@ export default function Page() {
     loadData();
   }, [loadData]);
 
-  console.log("User ID:", user.id);
-
-  console.log("Transactions:", transactions);
-  console.log("Summary:", summary);
+  // console.log("User ID:", user.id);
+  // console.log("Transactions:", transactions);
+  // console.log("Summary:", summary);
 
   return (
     <View>
