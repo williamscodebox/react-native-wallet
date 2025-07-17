@@ -1,6 +1,7 @@
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import {
+  Alert,
   FlatList,
   RefreshControl,
   Text,
