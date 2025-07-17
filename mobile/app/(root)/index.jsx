@@ -55,7 +55,7 @@ export default function Page() {
   // console.log("Transactions:", transactions);
   // console.log("Summary:", summary);
 
-  if (isLoading) return <PageLoader />;
+  if (isLoading && !refreshing) return <PageLoader />;
   //console.log("Transactions:", transactions);
 
   return (
