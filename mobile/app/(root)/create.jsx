@@ -1,5 +1,8 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import { styles } from "../../assets/styles/create.styles";
+import { useRouter } from "expo-router";
+import { useUser } from "@clerk/clerk-expo";
 
 const CATEGORIES = [
   { id: "food", name: "Food & Drinks", icon: "fast-food" },
@@ -22,7 +25,7 @@ const CreateScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>CreateScreen</Text>
     </View>
   );
